@@ -1,0 +1,51 @@
+﻿@model IEnumerable<webBuy.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_homeLayout.cshtml";
+
+}
+
+<div class="olContent f1"><h2 style="color:black">Search Product</h2></div>
+<form method="post">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Enter Keyword" class="inputComn form-control" />
+        <div class="searchIcon">
+            <button type="submit" class="searchBtn">
+                <img src="~/Images/searchIcon.png" />
+            </button>
+        </div>
+    </div>
+</form>
+@if (Model.Count() == 0)
+{
+    <p>No result found</p>
+
+}
+else
+{
+<div class="d-flex flex-wrap justify-content-center">
+
+    @foreach (var item in Model)
+    {
+
+    <div class="card mx-2" style="width: 18rem;" mx-auto>
+        <img class="card-img-top" src="~/Images/@item.image" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Brand:@item.name</h5>
+            <p class="card-text">Price:@item.unitPrice</p>
+            @using (Html.BeginForm("AddToCart", "Customer", new { productId = item.productId }, FormMethod.Post))
+            {
+                <button type="submit" class="pull-right"><i class="fa fa-shopping-cart"></i></button>
+            }
+            <p>Available</p>
+            @Html.ActionLink("Details", "Details", new { id = item.productId })
+        </div>
+    </div>
+    <br />
+    }
+</div>
+
+}
+
+

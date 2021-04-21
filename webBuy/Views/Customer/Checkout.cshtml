@@ -1,0 +1,66 @@
+﻿@using webBuy.Models.Home
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_homeLayout.cshtml";
+}
+
+<h2>Checkout</h2>
+
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No product added to cart!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Line Total</th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                int total = 0;
+                string buyProduct = null;
+                int totalQuantity = 0;
+            }
+            @foreach (Item item in (List<Item>)Session["cart"])
+            {
+
+                int lineTotal = Convert.ToInt32(item.Quantity * item.Product.unitPrice);
+                total = Convert.ToInt32(lineTotal + @total);
+                totalQuantity = Convert.ToInt32(item.Quantity + totalQuantity);
+                buyProduct += item.Product.name;
+            <tr>
+                <td>@item.Product.name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.unitPrice</td>
+                <td>@lineTotal</td>
+                <td>
+                    <a href="@Url.Action("AddToCart", "Customer", new { productId = item.Product.productId,  })">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="@Url.Action("DecreaseQty", "Customer", new { productId = item.Product.productId })">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </td>
+            </tr>
+            }
+        <tr>
+            <td colspan="4" class="text-right">You Buy:@totalQuantity @buyProduct</td>
+            <td colspan="4" class="text-right">Total:@total</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+}
+
+

@@ -1,0 +1,25 @@
+﻿@model webBuy.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_homeLayout.cshtml";
+}
+
+<h2>Details</h2>
+<div class="container">
+    <img src="~/Images/@Model.image" width="300" height="300" />
+    <h3>Name:@Model.name</h3>
+    <h3>Price:@Model.unitPrice</h3>
+    @if (Model.quantity > 0)
+    {
+        <h3>Availabe:yes</h3>
+    }
+    else
+    {
+        <h3>Availabel:NO</h3>
+    }
+<button ><a href="/Customer/Index">Back</a></button>
+
+
+</div>
+
